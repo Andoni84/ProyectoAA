@@ -26,18 +26,8 @@ public class Conexion {
 	static ResultSet rs = null;
 	static PreparedStatement pstmt = null;
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		connect();
-		// queryConsult(
-		// " select abono.nombre , categoria.nombre from abono left join
-		// categoria ON abono.categoria_id = categoria.categoria_id WHERE
-		// categoria.categoria_id = 1; ");
-	}
 
-	// --------------------
-	// Metodos publicos
-	// --------------------
-
+	
 	/**
 	 * Establece conexion con la Base de Datos
 	 */
