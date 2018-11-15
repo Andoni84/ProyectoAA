@@ -4,6 +4,22 @@ import java.sql.Date;
 
 public class Usuario {
 	
+	/**
+	 * Clase Usuario
+	 * 
+	 * Crea objetos Usuario y codigo unico.
+	 * 
+	 * 15/11/2018
+	 *
+	 * @author Sergio
+	 * @version v1.2
+	 */
+
+	
+	//Clase Usuario con atributos name,fecha nacimiento,city,plan abono,codigo user_id. 
+	//El codigo se puede generarar automaticamente.
+	
+	
 	private String name;
 	private Date birth;
 	private String city;
@@ -64,6 +80,15 @@ public class Usuario {
 	}
 	
 	
+	
+	public Usuario(String name, Date birth, String city, int plan, int user_id) {
+		super();
+		this.name = name;
+		this.birth = birth;
+		this.city = city;
+		this.plan = plan;
+		this.user_id = user_id;
+	}
 	//METODOS
 	@Override
 	public String toString() {
