@@ -1,12 +1,14 @@
 package modelo;
 
+import java.sql.Date;
+
 public class Usuario {
 	
 	private String name;
-	private String birth;
+	private Date birth;
 	private String city;
-	private int abono;
-	private int User_id;
+	private int plan;
+	private int user_id;
 	
 	// SETTERS,GETTERS,TOSTRING
 	public String getName() {
@@ -15,10 +17,10 @@ public class Usuario {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getBirth() {
+	public Date getBirth() {
 		return birth;
 	}
-	public void setBirth(String birth) {
+	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
 	public String getCity() {
@@ -27,21 +29,42 @@ public class Usuario {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public int getAbono() {
-		return abono;
+	public int getPlan() {
+		return plan;
 	}
-	public void setAbono(int abono) {
-		this.abono = abono;
+	public void setPlan(int plan) {
+		this.plan = plan;
 	}
 	
 	public int getUser_id() {
-		return User_id;
+		return user_id;
 	}
 	public void setUser_id(int user_id) {
-		User_id = user_id;
+		this.user_id = user_id;
 	}
+	
+	
 	public Usuario() {
 	}
+
+	
+	public Usuario(String name, Date birth, String city, int plan) {
+		super();
+		this.name = name;
+		this.birth = birth;
+		this.city = city;
+		this.plan = plan;
+		this.user_id = this.hashCode();
+	}
+	
+	public Usuario(String name, Date birth){
+		super();
+		this.name = name;
+		this.birth = birth;
+	}
+	
+	
+	//METODOS
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -52,24 +75,48 @@ public class Usuario {
 		builder.append(", city=");
 		builder.append(city);
 		builder.append(", abono=");
-		builder.append(abono);
+		builder.append(plan);
 		builder.append(", User_id=");
-		builder.append(User_id);
+		builder.append(user_id);
 		builder.append("]");
 		return builder.toString();
 	}
 	
 	
-	//METODOS
-	
-	
-	// hasCode para el Usuario_id
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + User_id;
+		result = prime * result + ((birth == null) ? 0 : birth.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		if (birth == null) {
+			if (other.birth != null)
+				return false;
+		} else if (!birth.equals(other.birth))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+	
+	
+	
+	
+
 
 }

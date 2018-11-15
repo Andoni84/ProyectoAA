@@ -43,6 +43,13 @@ public class Lector {
 		return dato;
     }
 	
+	
+	 public static String readString(String msg) throws Exception {
+	        Escritor.write(msg);
+	        return readString();
+	} 	
+	
+	
 	public static int readInt() throws Exception {
 		int dato = new Scanner(System.in).nextInt();
 		logger.debug("Valor de lectura	: "+dato);
