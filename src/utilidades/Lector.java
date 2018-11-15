@@ -60,4 +60,8 @@ public class Lector {
 		return readDouble();
 	}
 
+	public static String readString(String msg) throws Exception {
+        Escritor.write(msg);
+        return readString();
+} 	
 }
