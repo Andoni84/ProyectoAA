@@ -26,8 +26,8 @@ public class DAOMovies implements IDAOMovies {
 	
 	public void addMovie(Pelicula peli){
 	
-		String query= "INSERT INTO `movies`(Nombre,Year,Categoria_id,Isbn,Vistas,Rating)"
-+ " VALUE ('"+peli.getName()+"',"+peli.getYear()+","+peli.getGenre()+","+peli.getIsbn()+","+peli.getViews()+","+peli.getRating()+")";
+		String query= "INSERT INTO `movies`(Nombre,Year,Categoria,Isbn,Vistas,Rating)"
++ " VALUE ('"+peli.getName()+"',"+peli.getYear()+",'"+peli.getGenre()+"',"+peli.getIsbn()+","+peli.getViews()+","+peli.getRating()+")";
 		
 		
 		try {

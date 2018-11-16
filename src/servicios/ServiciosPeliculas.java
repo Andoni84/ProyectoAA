@@ -1,7 +1,5 @@
 package Servicios;
 
-
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -24,8 +22,8 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 	 * @author Andoni
 	 * @version v1
 	 */
-	
-	DAOMovies daoMovies=new DAOMovies();
+
+	DAOMovies daoMovies = new DAOMovies();
 
 	@Override
 	public void addMovie() throws IllegalArgumentException {
@@ -45,6 +43,7 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 				Escritor.write("\t6-thriller");
 				int indCat = Lector.readInt();
 				String idGenre = "";
+				
 				switch (indCat) {
 				case 1:
 					idGenre = "policiaca";
@@ -62,13 +61,13 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 					idGenre = "thriller";
 				}
 
-				Pelicula pelicula = Factoria.factoriaPelicula(name, year, idGenre,0,0);
+				Pelicula pelicula = Factoria.factoriaPelicula(name, year, idGenre, 0, 0);
 
 				addMovie(pelicula);
-				
+
 				seguir = true;
-				
-			}catch(IllegalArgumentException e){
+
+			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -79,25 +78,25 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 
 	}
 
-	public void addMovie(Pelicula pelicula) throws IllegalArgumentException  {
+	public void addMovie(Pelicula pelicula) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
 		try {
-		
-		ResultSet isbnRs = daoMovies.isbnList(pelicula.getIsbn());
 
-		if(isbnRs.next()) {
-			throw new IllegalArgumentException("Objeto repetido");
-		}
-		}catch(IllegalArgumentException e){
+			ResultSet isbnRs = daoMovies.isbnList(pelicula.getIsbn());
+
+			if (isbnRs.next()) {
+				throw new IllegalArgumentException("Objeto repetido");
+			}
+		} catch (IllegalArgumentException e) {
 			try {
 				Escritor.write(e.getMessage());
-				
+
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -111,39 +110,41 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 	public void deleteMovie(Pelicula pelicula) {
 		// TODO Auto-generated method stub
 		try {
-			
+
 			ResultSet isbnRs = daoMovies.isbnList(pelicula.getIsbn());
 
-			if(!isbnRs.next()) {
+			if (!isbnRs.next()) {
 				throw new IllegalArgumentException("No existe objeto");
 			}
-			}catch(IllegalArgumentException e){
-				try {
-					Escritor.write(e.getMessage());
-					
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			} catch (SQLException e) {
+		} catch (IllegalArgumentException e) {
+			try {
+				Escritor.write(e.getMessage());
+
+			} catch (Exception e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
 
-			daoMovies.deleteMovie(pelicula);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		daoMovies.deleteMovie(pelicula);
 	}
-	
-	public void  listMovies() throws Exception{
-		ResultSet rs=daoMovies.listMovies();
-		if(!rs.next()) throw new IllegalArgumentException("No existen objetos a mostar");
-		
-		do{
-			Pelicula pelicula=Factoria.factoriaPelicula(rs.getString(1),rs.getInt(2), rs.getString(3),rs.getInt(4),rs.getInt(5));
+
+	public void listMovies() throws Exception {
+		ResultSet rs = daoMovies.listMovies();
+		if (!rs.next())
+			throw new IllegalArgumentException("No existen objetos a mostar");
+
+		do {
+			Pelicula pelicula = Factoria.factoriaPelicula(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
+					rs.getInt(5));
 			Escritor.write(pelicula.toString());
-			
-		}while(rs.next());
-		
+
+		} while (rs.next());
+
 	}
 
 }
