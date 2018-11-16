@@ -1,12 +1,17 @@
-package Servicios;
+package servicios;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import Datos.DAOMovies;
+import datos.DAOMovies;
 import modelo.Pelicula;
 import utilidades.Escritor;
 import utilidades.Factoria;
+import utilidades.GenRatingViews;
 import utilidades.Lector;
 
 public class ServiciosPeliculas implements IServiciosPeliculas {
@@ -32,7 +37,7 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 		do {
 			try {
 				Escritor.write("-----NUEVA PELICULA-----");
-				String name = Lector.readString("Nombre: ");
+				String name = Lector.readString("Nombre: ").toUpperCase();
 				int year = Lector.readInt("Año: ");
 				Escritor.write("Elige Categoria");
 				Escritor.write("\t1-policiaca");
@@ -42,26 +47,26 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 				Escritor.write("\t5-animacion");
 				Escritor.write("\t6-thriller");
 				int indCat = Lector.readInt();
-				String idGenre = "";
+				String Genre = "";
 				
 				switch (indCat) {
 				case 1:
-					idGenre = "policiaca";
+					Genre = "policiaca".toUpperCase();
 					break;
 				case 2:
-					idGenre = "romantica";
+					Genre = "romantica".toUpperCase();
 					break;
 				case 3:
-					idGenre = "aventuras";
+					Genre = "aventuras".toUpperCase();
 				case 4:
-					idGenre = "comedia";
+					Genre = "comedia".toUpperCase();
 				case 5:
-					idGenre = "animacion";
+					Genre = "animacion".toUpperCase();
 				case 6:
-					idGenre = "thriller";
+					Genre = "thriller".toUpperCase();
 				}
 
-				Pelicula pelicula = Factoria.factoriaPelicula(name, year, idGenre, 0, 0);
+				Pelicula pelicula = Factoria.factoriaPelicula(name, year, Genre,GenRatingViews.generadorViews(),GenRatingViews.generadorViews());
 
 				addMovie(pelicula);
 
@@ -101,7 +106,7 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		daoMovies.addMovie(pelicula);
 
 	}
@@ -135,16 +140,81 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 
 	public void listMovies() throws Exception {
 		ResultSet rs = daoMovies.listMovies();
-		if (!rs.next())
-			throw new IllegalArgumentException("No existen objetos a mostar");
-
-		do {
-			Pelicula pelicula = Factoria.factoriaPelicula(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(4),
-					rs.getInt(5));
-			Escritor.write(pelicula.toString());
-
-		} while (rs.next());
+		printList(rs);
 
 	}
+	
+	public void insertListMovies(){
+	try( BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Peliculas.txt")))) {
+	    String line = null;
+	    Pelicula pelicula;
+	    while ((line = br.readLine()) != null) {
+	        String[] values = line.split(","); // Split 
+	        pelicula=Factoria.factoriaPelicula(values[0].toUpperCase(), Integer.parseInt(values[1]),values[2].toUpperCase(), Integer.parseInt(values[3]), Double.parseDouble(values[4]));
+	        addMovie(pelicula);
+	    }
+	   
+	} catch (IOException ioe) {
+	    // Excepción
+	}
+	}
+	
+	public void filterMovies() throws Exception{
+		ResultSet rs;
+		int year1=0,year2=0;
+		
+		Escritor.write("-----FILTRADO DE PELICULAs-----");
+		Escritor.write("Elige opcion:");
+		Escritor.write("\t1-Filtar por año");
+		Escritor.write("\t2-Filtrar por nombre");
+		Escritor.write("\t3-TOP 5 peliculas mas vistas");
+		Escritor.write("\t4-TOP 5 peliculas mas valoradas");
+		
+		switch(Lector.readInt()){
+		case 1:
+			boolean rango;
+			do{
+			rango=true;
+			Escritor.write("\tIntroduce rango de años");
+			year1=Lector.readInt("\tDesde:");
+			year2=Lector.readInt("\tHasta:");
+			if(year1<0 || year2<year1){
+				rango=false;
+				Escritor.write("Rango no valido");
+			}
+			}while(rango==false);
+			rs=daoMovies.filterMovies(year1,year2);
+			printList(rs);	
+			break;
+		case 2:
+			String name1=Lector.readString("\tIntroduce el nombre o una parte de el:");
+			rs=daoMovies.filterMovies(name1);
+			printList(rs);
+			break;	
+		case 3:
+			rs=daoMovies.filterMovies("Vistas",5);
+			printList(rs);
+			break;	
+		case 4:
+			rs=daoMovies.filterMovies("Rating",5);
+			printList(rs);
+			break;	
+			
+		}
+	
+		
+	}
+	
+	public void printList(ResultSet rs) throws Exception{
+			if (!rs.next())
+				throw new IllegalArgumentException("No existen objetos a mostar");
 
+			do {
+				Pelicula pelicula = Factoria.factoriaPelicula(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getInt(5),
+						rs.getDouble(6),rs.getInt(4));
+				Escritor.write(pelicula.toString());
+
+			} while (rs.next());
+		
+	}
 }

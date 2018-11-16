@@ -62,7 +62,7 @@ public class Pelicula {
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + year;
-		return result;
+		return (result & 0xfffffff );
 	}
 
 	@Override

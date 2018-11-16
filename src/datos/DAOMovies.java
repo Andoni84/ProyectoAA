@@ -71,7 +71,6 @@ public class DAOMovies implements IDAOMovies {
 		return rs;
 	}
 	
-
 	@Override
 	public void deleteMovie(Pelicula pelicula) {
 		// TODO Auto-generated method stub
@@ -87,8 +86,26 @@ public class DAOMovies implements IDAOMovies {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-		
 	}
+	
+	public ResultSet filterMovies(String name) throws ClassNotFoundException, SQLException{
+		ResultSet rs=null;
+		String query="SELECT * FROM `movies` WHERE LOCATE('"+name+"',`Nombre`) > 0";
+		return rs=Conexion.queryConsult(query);
+	}
+	
+	public ResultSet filterMovies(int year1,int year2) throws ClassNotFoundException, SQLException{
+		ResultSet rs=null;
+		String query="SELECT * FROM `movies` WHERE Year>"+year1+" AND Year<"+year2;
+		return rs=Conexion.queryConsult(query);
+	}
+	
+	public ResultSet filterMovies(String name, int top) throws ClassNotFoundException, SQLException{
+		ResultSet rs=null;
+		String query="SELECT * FROM `movies`  WHERE "+name+">0 ORDER BY "+name+" DESC LIMIT "+top;
+		return rs=Conexion.queryConsult(query);
+	}
+	
 	public void updateQuery(String query) throws SQLException, ClassNotFoundException{
 			Connection con=Conexion.connect();
 
