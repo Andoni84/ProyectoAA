@@ -7,7 +7,7 @@ public class DAOUser implements IDAOUser {
 	
 	
 	//METODO PARA AÑADIR USUARIOS
-	public  void addUser(Usuario user){
+	public static void addUser(Usuario user){
 		
 		// Datos de la conexion a la BBDD
 		try {
@@ -43,14 +43,13 @@ public class DAOUser implements IDAOUser {
 	
 	
 	//METODO PARA BORRAR USUARIOS, es igual que el metodo addUser(), pero cambiando la sintaxis
-	public void deleteUser(Usuario user){
+	public static void deleteUser(Usuario user){
 		try {
 			Conexion.connect();
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 		String InsertTableSQL = "DELETE FROM user WHERE User_id=?" ;
 		Conexion.createpreparedStatement(InsertTableSQL);
 		try{

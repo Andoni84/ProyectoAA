@@ -85,19 +85,20 @@ public class Conexion {
 			rs = st.executeQuery(query);
 			
 			return rs;
-			}
+			
 
 		} catch (SQLException e) {
 			System.out.println("Excepcion SQL " + e.getMessage());
 			System.out.println("Estado SQL " + e.getSQLState());
 			System.out.println("Codigo del Error " + e.getErrorCode());
 		}
+		return rs;
 
 	}
 
 	public static void createStatement(Connection con, String consulta) { 
-	 String query = consulta; try { st =
-	  (Statement) con.createStatement();
+	 String query = consulta; try {
+		 st = (Statement) con.createStatement();
 	  
 	  } catch (SQLException e) { 
 		  System.out.println("Excepcion SQL " +e.getMessage()); 

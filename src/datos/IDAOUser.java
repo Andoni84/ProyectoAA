@@ -3,8 +3,12 @@ import modelo.Usuario;
 
 public interface IDAOUser {
 
-	public void addUser(Usuario user);
-	public void deleteUser(Usuario user);
+	public static void addUser(Usuario user){
+		
+	}
+	public static void deleteUser(Usuario user){
+		
+	}
 	
 	
 	
