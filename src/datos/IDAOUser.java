@@ -1,8 +1,10 @@
 package datos;
+import modelo.Usuario;
+
 public interface IDAOUser {
 
-	public void addUser();
-	public void deleteUser();
+	public void addUser(Usuario user);
+	public void deleteUser(Usuario user);
 	
 	
 	
