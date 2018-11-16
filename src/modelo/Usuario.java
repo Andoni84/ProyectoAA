@@ -11,14 +11,15 @@ public class Usuario {
 	 * 
 	 * 15/11/2018
 	 *
-	 * @author Jorge Cuesta
+	 * @author Grupo1
 	 * @version v1.2
 	 */
 
 	
-	//Clase Usuario con atributos name,fecha nacimiento,city,plan abono,codigo user_id. 
-	//El codigo se puede generarar automaticamente.
-	
+	/*
+	 * Clase Usuario con atributos name,fecha nacimiento,city,plan abono,codigo user_id. 
+	 *El codigo se puede generarar automaticamente.
+	 */
 	
 	private String name;
 	private Date birth;
@@ -26,7 +27,9 @@ public class Usuario {
 	private int plan;
 	private int user_id;
 	
-	// SETTERS,GETTERS,TOSTRING
+	/*
+	 * SETTERS,GETTERS,TOSTRING
+	 */
 	public String getName() {
 		return name;
 	}
@@ -89,7 +92,10 @@ public class Usuario {
 		this.plan = plan;
 		this.user_id = user_id;
 	}
-	//METODOS
+	/*
+	 * METODOS(non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
