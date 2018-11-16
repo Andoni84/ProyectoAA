@@ -21,10 +21,10 @@ import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
 public class Conexion {
-	static Connection con = null;
-	static Statement st = null;
-	static ResultSet rs = null;
-	static PreparedStatement pstmt = null;
+	public static Connection con = null;
+	public static Statement st = null;
+	public static ResultSet rs = null;
+	public static PreparedStatement pstmt = null;
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		connect();
@@ -123,7 +123,7 @@ public class Conexion {
 	  
 	  }
 	
-	public static void createpreparedStatement(Connection con, String insert) { 
+	public static void createpreparedStatement(String insert) { 
 		try {
 			pstmt = (PreparedStatement) con.prepareStatement(insert);
 		} catch (SQLException e) {
