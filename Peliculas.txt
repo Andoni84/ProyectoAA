@@ -1,0 +1,35 @@
+La vida es bella,1997,romantica,0,0
+Intocable,2011,comedia,0,0
+Regreso al futuro,1985,comedia,0,0
+El gran dictador,1940,comedia,0,0
+Luces de la ciudad,1931,comedia,0,0
+Forrest Gump,1994,comedia,0,0
+Casablanca,1942,romantica,0,0
+Amelia,2001,romantica,0,0
+El indomable Will Hunting,1997,romantica,0,0
+El apartamento,1960,romantica,0,0
+El secreto de tus ojos,2009,romantica,0,0
+El Rey León,1994,animacion,0,0
+Coco,2017,animacion,0,0
+La princesa Mononoke,1997,animacion,0,0
+Up,2009,animacion,0,0
+Toy Story,1995,animacion,0,0
+Inside Out,2015,animacion,0,0
+El caballero oscuro,2008,thriller,0,0
+Origen,2010,thriller,0,0
+Sospechosos habituales,1995,thriller,0,0
+Seven,1995,thriller,0,0
+El silencio de los corderos,1991,thriller,0,0
+Memento,2000,thriller,0,0
+El señor de los anillos: El retorno del rey,2003,aventuras,0,0
+Origen,2010,aventuras,0,0
+Los siete samuráis,1954,aventuras,0,0
+Interstellar,2014,aventuras,0,0
+La guerra de las galaxias,1997,aventuras,0,0
+Gladiator,2000,aventuras,0,0
+El caso Bourne,2002,policiaca,0,0
+La noche de los cristales rotos,1991,policiaca,0,0
+Arma letal,1987,policiaca,0,0
+La jungla de cristal,1988,policiaca,0,0
+Fargo,1996,policiaca,0,0
+Shutter Island,2010,policiaca,0,0

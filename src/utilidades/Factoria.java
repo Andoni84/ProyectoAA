@@ -2,6 +2,7 @@ package utilidades;
 
 import java.sql.Date;
 
+import modelo.Pelicula;
 import modelo.Usuario;
 
 public class Factoria {
@@ -9,7 +10,7 @@ public class Factoria {
 	/**
 	 * Clase Factoria
 	 * 
-	 * Métodos para crear usuarios a partir de los atributos recibidos.
+	 * Métodos para crear usuarios y películas a partir de los datos recibidos.
 	 * 
 	 * 15/11/2018
 	 *
@@ -29,5 +30,15 @@ public class Factoria {
 		return user;
 	}
 	
+	//Método que devulve una película. Valores de entrada: datos de la película.
+	public static Pelicula factoriaPelicula(String name, int year, String genre, int views, double rating){
+		Pelicula movie = new Pelicula(name, year, genre, views,  rating);		
+		return movie;
+	}
 	
+	//Método que devulve una película. Valores de entrada: datos de la película y el identificador.
+	public static Pelicula factoriaPelicula(String name, int year, String genre, int views, double rating, int isbn){
+		Pelicula movie = new Pelicula(name, year, genre, views,  rating, isbn);		
+		return movie;
+	}
 }
