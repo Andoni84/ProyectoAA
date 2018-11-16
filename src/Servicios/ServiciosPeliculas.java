@@ -1,10 +1,16 @@
 package Servicios;
 
+
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import Datos.DAOMovies;
 import modelo.Pelicula;
 import utilidades.Escritor;
 import utilidades.Lector;
 
-public class ServicioPeliculas implements IServiciosPeliculas {
+public class ServiciosPeliculas implements IServiciosPeliculas {
 
 	/**
 	 * ClaseServicioPeliculas
@@ -53,17 +59,10 @@ public class ServicioPeliculas implements IServiciosPeliculas {
 					idGenre = "thriller";
 				}
 
-				Pelicula pelicula = Factoria.factoriaMovie(name, year, idGenre);
+				//Pelicula pelicula = Factoria.factoriaMovie(name, year, idGenre);
 
-				int[] isbnPeliculas = DaoMovies.listIsbn();
-
-				for (int val : isbnPeliculas) {
-					if (pelicula.getIsbn() == val)
-						throw new IllegalArgumentException("Objeto repetido");
-				}
-
-				DaoMovies.addMovie(pelicula);
-			
+				//addMovie(pelicula);
+				
 				seguir = true;
 				
 			}catch(IllegalArgumentException e){
@@ -77,9 +76,38 @@ public class ServicioPeliculas implements IServiciosPeliculas {
 
 	}
 
-	@Override
-	public void addMovie(Pelicula pelicula) {
+	public void addMovie(Pelicula pelicula)  {
 		// TODO Auto-generated method stub
+
+		try {
+		
+		ResultSet isbnRs = DAOMovies.isbnList();
+
+		while(isbnRs.next()) {
+			
+			int val;
+
+				val = isbnRs.getInt(1);
+		
+			
+			if (pelicula.getIsbn() == val)
+				throw new IllegalArgumentException("Objeto repetido");
+		}
+		}catch(IllegalArgumentException e){
+			try {
+				Escritor.write(e.getMessage());
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		DAOMovies.addMovie(pelicula);
 
 	}
 
