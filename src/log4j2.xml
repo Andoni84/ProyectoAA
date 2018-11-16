@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <!-- Por defecto será en C:/ o D:/.. donde se ejecute -->
+        <Property name="log-path">/logsSistema</Property>
+    </Properties>
+ 
+    <Appenders>
+        <RollingFile name="file-log" fileName="${log-path}/HelloLog4j2.log" filePattern="${log-path}/HelloLog4j-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%5p] - %c{1}:%L %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"  modulate="true" />
+            </Policies>
+        </RollingFile>
+ 
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%5p] - %c{1}:%L %d{yyyy-MM-dd HH:mm:ss} - %m%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+     
+        <!-- here we restrict the log level by package 
+        <Logger name="com.rrivero.log" level="info" additivity="true">
+            <appender-ref ref="file-log" level="fatal" />
+        </Logger>
+        -->
+         
+        <Root level="debug">
+            <appender-ref ref="console" />
+            <appender-ref ref="file-log" />
+        </Root>
+    </Loggers>
+</Configuration>

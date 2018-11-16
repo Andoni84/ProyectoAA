@@ -11,7 +11,7 @@ public class Usuario {
 	 * 
 	 * 15/11/2018
 	 *
-	 * @author Sergio
+	 * @author Jorge Cuesta
 	 * @version v1.2
 	 */
 
