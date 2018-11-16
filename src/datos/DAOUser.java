@@ -14,7 +14,12 @@ package datos;
 
 
 import modelo.Usuario;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
@@ -93,4 +98,69 @@ public class DAOUser implements IDAOUser {
             System.out.println(e.getMessage());
         } 
 	}
+	
+	/*
+	 *MÉTODO QUE DEVUELVE EL RESULTADO DE LA BÚSQUEDA DE UN USUARIO POR ID	
+	 */
+	public ResultSet CheckUser(Usuario user){			
+		ResultSet rs = null;
+		try {
+				Conexion.connect();
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}			
+			String InsertTableSQL = "SELECT FROM user WHERE User_id=?" ;
+			Conexion.createpreparedStatement(InsertTableSQL);
+			try{
+				 Conexion.pstmt.setInt(1, user.getUser_id()); 
+				 rs = Conexion.pstmt.executeQuery();
+			}catch (SQLException e) {
+	            System.out.println(e.getMessage());
+	        } 
+			return rs;
+		}
+	
+	
+	
+	
+	/*
+	 * METODO PARA LISTAR TODOS LOS USUARIOS
+	 */
+	
+	public static String[] muestraUser(){
+		ArrayList<String> lista = new ArrayList<String>();
+		
+		try {
+			Conexion.connect();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		 ResultSet rs = null;
+		 Statement st = null;
+		 try{
+				st = (Statement) Conexion.con.createStatement();
+				rs = st.executeQuery("select nombre from movieflix.user;");
+				while (rs.next()) {
+				    lista.add(rs.getString(1));
+				    
+				}
+				rs.first();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		 String[] lista_usuarios = new String[lista.size()];
+		 int i=0;
+		for(String s:lista){
+			lista_usuarios[i]=s;
+			i++;
+		}
+		return lista_usuarios;
+	}
+		
+	
+	
+	
+	
+	
+	
 }

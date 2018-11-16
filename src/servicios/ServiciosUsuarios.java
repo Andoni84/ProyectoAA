@@ -67,26 +67,7 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 
 
 
-	////// DAOUser: MÉTODO QUE DEVUELVE EL RESULTADO DE LA BÚSQUEDA DE UN USUARIO POR ID	
-		public ResultSet CheckUser(Usuario user)
-		{
-			ResultSet rs = null;
-			try {
-				Conexion.connect();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}			
-			String InsertTableSQL = "SELECT FROM user WHERE User_id=?" ;
-			Conexion.createpreparedStatement(InsertTableSQL);
-			try{
-				 Conexion.pstmt.setInt(1, user.getUser_id()); 
-				 rs = Conexion.pstmt.executeQuery();
-			}catch (SQLException e) {
-	            System.out.println(e.getMessage());
-	        } 
-			return rs;
-		}
+	
 		
 	
 	////// MÉTODO QUE DICE SI 		
