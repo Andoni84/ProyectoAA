@@ -8,9 +8,9 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Pelicula p=new Pelicula("La_purga",2010,1,1000,4.5);
+		Pelicula p=new Pelicula("SAW",2011,4,1999,1);
 		
-		new ServiciosPeliculas().addMovie(p);
+		new ServiciosPeliculas().deleteMovie(p);
 
 	}
 

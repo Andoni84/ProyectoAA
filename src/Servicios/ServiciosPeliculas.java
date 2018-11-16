@@ -23,6 +23,8 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 	 * @author Andoni
 	 * @version v1
 	 */
+	
+	DAOMovies daoMovies=new DAOMovies();
 
 	@Override
 	public void addMovie() {
@@ -81,17 +83,10 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 
 		try {
 		
-		ResultSet isbnRs = DAOMovies.isbnList();
+		ResultSet isbnRs = daoMovies.isbnList(pelicula.getIsbn());
 
-		while(isbnRs.next()) {
-			
-			int val;
-
-				val = isbnRs.getInt(1);
-		
-			
-			if (pelicula.getIsbn() == val)
-				throw new IllegalArgumentException("Objeto repetido");
+		if(isbnRs.next()) {
+			throw new IllegalArgumentException("Objeto repetido");
 		}
 		}catch(IllegalArgumentException e){
 			try {
@@ -107,8 +102,35 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 			e.printStackTrace();
 		}
 
-		DAOMovies.addMovie(pelicula);
+		daoMovies.addMovie(pelicula);
 
+	}
+
+	@Override
+	public void deleteMovie(Pelicula pelicula) {
+		// TODO Auto-generated method stub
+		try {
+			
+			ResultSet isbnRs = daoMovies.isbnList(pelicula.getIsbn());
+
+			if(!isbnRs.next()) {
+				throw new IllegalArgumentException("No existe objeto");
+			}
+			}catch(IllegalArgumentException e){
+				try {
+					Escritor.write(e.getMessage());
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			daoMovies.deleteMovie(pelicula);
 	}
 
 }

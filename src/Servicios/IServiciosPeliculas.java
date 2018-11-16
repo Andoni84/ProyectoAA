@@ -10,4 +10,6 @@ public interface IServiciosPeliculas {
 	
 	public void addMovie(Pelicula pelicula);
 	
+	public void deleteMovie(Pelicula pelicula);
+	
 }
