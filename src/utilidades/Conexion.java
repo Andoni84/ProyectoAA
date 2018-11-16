@@ -72,10 +72,10 @@ public class Conexion {
 	}
 
 	/**
-	 * Realiza consultas dado un String por parametro
+	 * Realiza la conexion, ejecuta query y devuelve resultset.
 	 */
 
-	public static void queryConsult(String consulta) throws ClassNotFoundException, SQLException {
+	public static ResultSet queryConsult(String consulta) throws ClassNotFoundException, SQLException {
 
 		connect();
 		String query = consulta;
@@ -83,25 +83,8 @@ public class Conexion {
 			st = (Statement) con.createStatement();
 
 			rs = st.executeQuery(query);
-			ResultSetMetaData rsm = (ResultSetMetaData) rs.getMetaData();
-			int countCol = rsm.getColumnCount();
-
-			System.out.println(" ");
-			while (rs.next()) {
-
-				for (int i = 1; i <= countCol; i++) {
-
-					System.out.println(rsm.getColumnName(i) + ":");
-					System.out.println(rs.getString(i));
-					if (i < countCol) {
-						System.out.println(" ");
-					}
-					if (i == countCol) {
-						System.out.println("------------------------------------------------ ");
-					}
-				}
-				System.out.println();
-
+			
+			return rs;
 			}
 
 		} catch (SQLException e) {
