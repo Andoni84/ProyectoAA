@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import Datos.DAOMovies;
 import modelo.Pelicula;
 import utilidades.Escritor;
+import utilidades.Factoria;
 import utilidades.Lector;
 
 public class ServiciosPeliculas implements IServiciosPeliculas {
@@ -131,6 +132,18 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 			}
 
 			daoMovies.deleteMovie(pelicula);
+	}
+	
+	public void  listMovies() throws Exception{
+		ResultSet rs=daoMovies.listMovies();
+		if(!rs.next()) throw new IllegalArgumentException("No existen objetos a mostar");
+		
+		do{
+			Pelicula pelicula=Factoria.factoriaPelicula(rs.getString(1),rs.getInt(2), rs.getString(3),rs.getInt(4),rs.getInt(5));
+			Escritor.write(pelicula.toString());
+			
+		}while(rs.next());
+		
 	}
 
 }

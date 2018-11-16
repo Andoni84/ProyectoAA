@@ -61,9 +61,6 @@ public class Pelicula {
 		int result = 1;
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(rating);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + year;
 		return result;
 	}
@@ -88,10 +85,6 @@ public class Pelicula {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (Double.doubleToLongBits(rating) != Double.doubleToLongBits(other.rating))
-			return false;
-		if (views != other.views)
 			return false;
 		if (year != other.year)
 			return false;

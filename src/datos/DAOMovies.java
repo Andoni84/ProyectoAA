@@ -27,7 +27,7 @@ public class DAOMovies implements IDAOMovies {
 	public void addMovie(Pelicula peli){
 	
 		String query= "INSERT INTO `movies`(Nombre,Year,Categoria_id,Isbn,Vistas,Rating)"
-+ " VALUE ('"+peli.getName()+"',"+peli.getYear()+","+peli.getidGenre()+","+peli.getIsbn()+","+peli.getViews()+","+peli.getRating()+")";
++ " VALUE ('"+peli.getName()+"',"+peli.getYear()+","+peli.getGenre()+","+peli.getIsbn()+","+peli.getViews()+","+peli.getRating()+")";
 		
 		
 		try {
@@ -45,6 +45,21 @@ public class DAOMovies implements IDAOMovies {
 		ResultSet rs=null;
 		try {
 			rs= Conexion.queryConsult("SELECT Isbn FROM movies WHERE Isbn="+isbn);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
+	public ResultSet listMovies(){
+		ResultSet rs=null;
+		try {
+			rs= Conexion.queryConsult("SELECT * FROM movies");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
