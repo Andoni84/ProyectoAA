@@ -15,19 +15,22 @@ public interface IServiciosPeliculas {
 	 *
 	 * @author Andoni
 	 * @version v1
+	 * @throws Exception 
 	 */
 
 	// El ultimo tiene que generar Javadoc, formatear, calidad
 
-	public void addMovie();
+	public void addMovie() throws Exception;
 
-	public void addMovie(Pelicula pelicula);
+	public void addMovie(Pelicula pelicula) throws IllegalArgumentException, Exception;
+	
+	public void deleteMovie() throws Exception;
 
-	public void deleteMovie(Pelicula pelicula);
+	public void deleteMovie(Pelicula pelicula) throws IllegalArgumentException, Exception;
 
 	public void listMovies() throws Exception;
 
-	public void insertListMovies();
+	public void insertListMovies() throws Exception;
 
 	public void filterMovies() throws Exception;
 

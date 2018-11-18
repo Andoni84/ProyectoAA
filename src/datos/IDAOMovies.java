@@ -16,13 +16,16 @@ public interface IDAOMovies {
 	 *
 	 * @author Andoni
 	 * @version v1
+	 * @throws Exception 
 	 */
 
-	public void addMovie(Pelicula pelicula);
+	public void addMovie(Pelicula pelicula) throws Exception;
 
-	public void deleteMovie(Pelicula pelicula);
+	public void deleteMovie(Pelicula pelicula) throws Exception;
 
 	public ResultSet isbnList(int isbn);
+	
+	public ResultSet listMovies();
 
 	public ResultSet filterMovies(String name) throws ClassNotFoundException, SQLException;
 
