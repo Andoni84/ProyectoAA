@@ -34,6 +34,8 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	
 	/**
 	 * Solicita por pantalla los datos necesarios para crear un nuevo usuario.
+	 * 
+	 *  @throws InputMismatchException
 	 */
 	public void addUser() throws InputMismatchException {
 		boolean error = true;
@@ -49,6 +51,7 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 				 Date birth = Date.valueOf(year+"-"+month+"-"+day);
 				 String city = Lector.readString("Localidad: ");
 				 int plan = Lector.readInt("Seleccionar Abono: \n\t1-BASICO \n\t2-EXTRA \n\t3-PREMIUM ");
+				 logger.info("Proceso de solicitud de datos de usuario completado.");
 				 
 				 user = Factoria.factoriaUser(name, birth, city, plan);
 				 addUser(user);
@@ -111,9 +114,10 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 				 String month = Lector.readString("\tMes: ");
 				 String day = Lector.readString("\tDía: ");
 				 Date birth = Date.valueOf(year+"-"+month+"-"+day);
-				 
+				 logger.info("Proceso de solicitud de datos de usuario completado.");
+
 				 user = Factoria.factoriaUser(name, birth);
-				 deleteUser(user); //Entra en el método que comprueba si se encuentra en la base de datos. En caso positivo lo borra.
+				 deleteUser(user); //Comprueba si se encuentra en la base de datos. En caso positivo lo borra.
 				 error = false;
 				 
 			} catch (IllegalArgumentException e) {
@@ -167,17 +171,24 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	/*public boolean CheckRepeat(ResultSet rs) throws SQLException{
 		boolean repetido=false;
 		if (rs != null){
-			 repetido = true;}
+			 repetido = true;
+			logger.info("Los datos introducidos ya existen en la base de datos. ");
+		}
 		return repetido;
 	}*/
-
+	@Override
 	public boolean CheckRepeat(ResultSet rs) throws SQLException{
 		boolean repetido=false;
-		if (rs.next()){
-			 repetido = true;}
-		return repetido;
-	}
-	
+		try{
+			if (rs.next()){
+				repetido = true;
+				logger.info("Los datos introducidos ya existen en la base de datos. ");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			return repetido;
+	}	
 	
 	// --------------------
 	// MÉTODOS PARA VISUALIZAR LA OFERTA DE PELÍCULAS DE UN USUARIO
@@ -188,8 +199,31 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	 */	
 	@Override
 	public void availableMovies() {
-		// TODO Auto-generated method stub
 		
+		boolean error = true;
+		do{
+			try {
+				 Usuario user;
+				 Escritor.write("------CONSULTA DEL CATÁLOGO DE USUARIO------");
+				 String name = Lector.readString("Nombre: ");
+				 Escritor.write("Fecha de nacimiento");
+				 String year = Lector.readString("\tAño: ");
+				 String month = Lector.readString("\tMes: ");
+				 String day = Lector.readString("\tDía: ");
+				 Date birth = Date.valueOf(year+"-"+month+"-"+day);
+				 logger.info("Proceso de solicitud de datos de usuario completado.");
+
+				 user = Factoria.factoriaUser(name, birth);
+				 availableMovies(user); 
+				 error = false;
+				
+				 
+			} catch (IllegalArgumentException e) {
+				e.getMessage();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}while (error == true);	
 	}
 
 	/**
@@ -199,8 +233,16 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	 */	
 	@Override
 	public void availableMovies(Usuario user) {
-		// TODO Auto-generated method stub
-		
+		String[] listaPeliculasUsuario = DAOUser.availableMovies(user);
+		for (String pelicula : listaPeliculasUsuario){
+			try {
+				Escritor.write(pelicula);
+				logger.info("Nombre de pelicula:" + pelicula);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -209,7 +251,6 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	@Override
 	public void listNotViewed() {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	
@@ -226,6 +267,7 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 		for (String usuario: listaUsers){
 			try {
 				Escritor.write(usuario);
+				logger.info("Nombre de usuario:" + usuario);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
