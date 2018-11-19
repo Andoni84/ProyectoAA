@@ -1,5 +1,7 @@
 package datos;
 
+import modelo.Pelicula;
+
 /**
  * Clase DAOUser
  *
@@ -236,5 +238,16 @@ public class DAOUser implements IDAOUser {
 		}
 		return lista_peliculas;
 
+	}
+	
+	public void addUserViewMovie(Usuario user, Pelicula pelicula){
+		String query=  "INSERT INTO `user_movie`(Nombre_user,Year,Isbn,User_id)" + " VALUE ('" + user.getName()
+				+ "'," + pelicula.getIsbn() + "," + user.getUser_id()+")";
+		con.updateQuery(query);
+	}
+	
+	public void addUserViewMovie(Usuario user){
+		String query=  "DELETE FROM user_movie WHERE User_id="+user.getUser_id();
+		con.updateQuery(query);
 	}
 }
