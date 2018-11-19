@@ -7,7 +7,7 @@ package utilidades;
  * 
  * 15/11/2018
  *
- * @author Miguel
+ * @author Grupo1
  * @version 1.0
  */
 
@@ -20,18 +20,30 @@ import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
+import datos.DAOMovies;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Conexion {
-	public static Connection con = null;
-	public static Statement st = null;
-	public static ResultSet rs = null;
-	public static PreparedStatement pstmt = null;
+
+	private static Logger logger;
+
+	static {
+		try {
+			logger = LogManager.getLogger(Conexion.class);
+		} catch (Throwable e) {
+			System.out.println("Logger Don't work");
+		}
+	}
+
+	public Connection con = null;
+	public Statement st = null;
+	public ResultSet rs = null;
+	public PreparedStatement pstmt = null;
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		connect();
-		// queryConsult(
-		// " select abono.nombre , categoria.nombre from abono left join
-		// categoria ON abono.categoria_id = categoria.categoria_id WHERE
-		// categoria.categoria_id = 1; ");
+
 	}
 
 	// --------------------
@@ -42,13 +54,15 @@ public class Conexion {
 	 * Establece conexion con la Base de Datos
 	 */
 
-	public static void connect() throws ClassNotFoundException {
+	public void connect() throws ClassNotFoundException {
 
 		try {
+			logger.info("Conectando...");
 			con = (Connection) DriverManager.getConnection("jdbc:mysql://10.90.36.11:3306/movieflix?useSSL=false",
 					"grupoa", "aaaa");
 
 		} catch (SQLException e) {
+			logger.error("ERROR. No se pudo conectar");
 			System.out.println("Excepcion SQL " + e.getMessage());
 			System.out.println("Estado SQL " + e.getSQLState());
 			System.out.println("Codigo del Error " + e.getErrorCode());
@@ -60,11 +74,13 @@ public class Conexion {
 	 * Cierra la conexion con la Base de Datos
 	 */
 
-	public static void close() throws SQLException {
+	public void close() throws SQLException {
 		try {
+			logger.error("Cerrando conexion...");
 			con.close();
 
 		} catch (SQLException e) {
+			logger.error("No se pudo cerrar la conexion");
 			System.out.println("Excepcion SQL " + e.getMessage());
 			System.out.println("Estado SQL " + e.getSQLState());
 			System.out.println("Codigo del Error " + e.getErrorCode());
@@ -72,10 +88,10 @@ public class Conexion {
 	}
 
 	/**
-	 * Realiza la conexion, ejecuta query y devuelve resultset.
+	 * Recibe una consulta por parametro y devuelve su ResultSet.
 	 */
 
-	public static ResultSet queryConsult(String consulta) throws ClassNotFoundException, SQLException {
+	public ResultSet queryConsult(String consulta) throws ClassNotFoundException, SQLException {
 
 		connect();
 		String query = consulta;
@@ -83,70 +99,52 @@ public class Conexion {
 			st = (Statement) con.createStatement();
 
 			rs = st.executeQuery(query);
-			
-			return rs;
-			
 
 		} catch (SQLException e) {
+			logger.error("No se pudo ejecutar Query");
 			System.out.println("Excepcion SQL " + e.getMessage());
 			System.out.println("Estado SQL " + e.getSQLState());
 			System.out.println("Codigo del Error " + e.getErrorCode());
 		}
 		return rs;
+	}
+
+	/**
+	 * Ejecuta Updates en la BBDD pasados por parametro.
+	 */
+
+	public void updateQuery(String query) {
+
+		try {
+			connect();
+
+			Statement st = (Statement) con.createStatement();
+
+			st.executeUpdate(query);
+		} catch (ClassNotFoundException e) {
+
+			logger.error(" Problema driver conexion");
+			e.printStackTrace();
+		} catch (SQLException e) {
+
+			logger.error(" Problema con query");
+			e.printStackTrace();
+		}
 
 	}
 
-	public static void createStatement(Connection con, String consulta) { 
-	 String query = consulta; try {
-		 st = (Statement) con.createStatement();
-	  
-	  } catch (SQLException e) { 
-		  System.out.println("Excepcion SQL " +e.getMessage()); 
-		  System.out.println("Estado SQL " + e.getSQLState());
-	      System.out.println("Codigo del Error " + e.getErrorCode()); }
-	  
-	  }
+	/**
+	 * Crea PreparedStatement dado un String por parametro.
+	 */
 	
-	public static void createpreparedStatement(String insert) { 
+	public void createpreparedStatement(String insert) {
 		try {
 			pstmt = (PreparedStatement) con.prepareStatement(insert);
 		} catch (SQLException e) {
-			
+			logger.error(" No se pudo crear PreparedStatement");
 			e.printStackTrace();
 		}
-		
-		
-		  
-	}
 
-	public static void createResultSet(Statement state) {
-		try {
-			rs = state.executeQuery(st.toString());
-			ResultSetMetaData rsm = (ResultSetMetaData) rs.getMetaData();
-			int countCol = rsm.getColumnCount();
-
-			System.out.println(" ");
-			while (rs.next()) {
-
-				for (int i = 1; i <= countCol; i++) {
-
-					System.out.println(rsm.getColumnName(i) + ":");
-					System.out.println(rs.getString(i));
-					if (i < countCol) {
-						System.out.println(" ");
-					}
-					if (i == countCol) {
-						System.out.println("------------------------------------------------ ");
-					}
-				}
-				System.out.println();
-
-			}
-		} catch (SQLException e) {
-			System.out.println("Excepcion SQL " + e.getMessage());
-			System.out.println("Estado SQL " + e.getSQLState());
-			System.out.println("Codigo del Error " + e.getErrorCode());
-		}
 	}
 
 }

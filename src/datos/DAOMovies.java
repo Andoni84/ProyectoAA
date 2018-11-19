@@ -27,7 +27,7 @@ public class DAOMovies implements IDAOMovies {
 	 */
 
 	private static Logger logger;
-
+    Conexion con = new Conexion();
 	static {
 		try {
 			logger = LogManager.getLogger(DAOMovies.class);
@@ -43,7 +43,7 @@ public class DAOMovies implements IDAOMovies {
 				+ peli.getRating() + ")";
 
 		try {
-			updateQuery(query);
+			con.updateQuery(query);
 			Escritor.write("Pelicula añadida correctamente");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -61,7 +61,7 @@ public class DAOMovies implements IDAOMovies {
 	public ResultSet isbnList(int isbn) {
 		ResultSet rs = null;
 		try {
-			rs = Conexion.queryConsult("SELECT Isbn FROM movies WHERE Isbn=" + isbn);
+			rs = con.queryConsult("SELECT Isbn FROM movies WHERE Isbn=" + isbn);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			logger.error("DAOmovies.isbnList(isbn) Problema driver conexion");
@@ -78,7 +78,7 @@ public class DAOMovies implements IDAOMovies {
 	public ResultSet listMovies() {
 		ResultSet rs = null;
 		try {
-			rs = Conexion.queryConsult("SELECT * FROM movies");
+			rs = con.queryConsult("SELECT * FROM movies");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			logger.error("DAOmovies.listMovies() Problema driver conexion");
@@ -98,7 +98,7 @@ public class DAOMovies implements IDAOMovies {
 		String query = "DELETE FROM movies WHERE Isbn=" + pelicula.getIsbn();
 
 		try {
-			updateQuery(query);
+			con.updateQuery(query);
 			Escritor.write("Pelicula eliminada correctamente");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -116,7 +116,7 @@ public class DAOMovies implements IDAOMovies {
 		ResultSet rs = null;
 		String query = "SELECT * FROM `movies` WHERE LOCATE('" + name + "',`Nombre`) > 0";
 		try {
-			rs = Conexion.queryConsult(query);
+			rs = con.queryConsult(query);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			logger.error("DAOmovies.filterMovie(string) Problema driver conexion");
@@ -133,7 +133,7 @@ public class DAOMovies implements IDAOMovies {
 		ResultSet rs = null;
 		String query = "SELECT * FROM `movies` WHERE Year>=" + year1 + " AND Year<=" + year2;
 		try {
-			rs = Conexion.queryConsult(query);
+			rs = con.queryConsult(query);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			logger.error("DAOmovies.filterMovie(year,year) Problema driver conexion");
@@ -150,7 +150,7 @@ public class DAOMovies implements IDAOMovies {
 		ResultSet rs = null;
 		String query = "SELECT * FROM `movies`  WHERE " + name + ">0 ORDER BY " + name + " DESC LIMIT " + top;
 		try {
-			rs = Conexion.queryConsult(query);
+			rs = con.queryConsult(query);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			logger.error("DAOmovies.filterMovie(palabraclave,top) Problema driver conexion");
@@ -163,24 +163,6 @@ public class DAOMovies implements IDAOMovies {
 		return rs;
 	}
 
-	public void updateQuery(String query) {
-
-		try {
-			Connection con = Conexion.connect();
-
-			Statement st = (Statement) con.createStatement();
-
-			st.executeUpdate(query);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			logger.error("DAOmovies.updateQuery(query) Problema driver conexion");
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			logger.error("DAOmovies.updateQuery(query) Problema con query");
-			e.printStackTrace();
-		}
-
-	}
+	
 
 }
