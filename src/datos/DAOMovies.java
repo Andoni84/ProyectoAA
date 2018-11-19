@@ -2,6 +2,7 @@ package datos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +36,14 @@ public class DAOMovies implements IDAOMovies {
 			System.out.println("Logger Don't work");
 		}
 	}
+	
+	/**
+	 * Introduce una nueva peilcula en la base de  datos.
+	 * 
+	 * @param pelicula: objeto pelicula
+	 * @see Conexion.updateQuery(query)
+	 * @throws Exception
+	 */
 
 	public void addMovie(Pelicula peli) throws Exception {
 
@@ -58,6 +67,15 @@ public class DAOMovies implements IDAOMovies {
 		logger.debug("DAOmovies.addMovie(pelicula) Pelicula añadida: ISBN " + peli.getIsbn());
 	}
 
+	
+	/**
+	 * Devuelve un Resulset con las peliculas que tienes el isbn imputado.
+	 * 
+	 * @param isbn: id unico de la pelicula
+	 * @return ResultSet de isbn
+	 * @see Conexion.queryConsult(query)
+	 */
+	
 	public ResultSet isbnList(int isbn) {
 		ResultSet rs = null;
 		try {
@@ -74,6 +92,13 @@ public class DAOMovies implements IDAOMovies {
 
 		return rs;
 	}
+	
+	/**
+	 * Devuelve un Resulset con todas las peliculas.
+	 * 
+	 * @return ResultSet de todas las peliculas.
+	 * @see Conexion.queryConsult(query)
+	 */
 
 	public ResultSet listMovies() {
 		ResultSet rs = null;
@@ -92,6 +117,13 @@ public class DAOMovies implements IDAOMovies {
 		return rs;
 	}
 
+	/**
+	 * Elimina la pelicula que tenga el mismo isbn que le objeto que se le imputa.
+	 * 
+	 * @param pelicula: objeto pelicula.
+	 * @see Conexion.updateQuery(query)
+	 */
+	
 	@Override
 	public void deleteMovie(Pelicula pelicula) throws Exception {
 		// TODO Auto-generated method stub
@@ -112,6 +144,14 @@ public class DAOMovies implements IDAOMovies {
 		logger.debug("DAOmovies.deleteMovie(pelicula) Pelicula eliminada: ISBN " + pelicula.getIsbn());
 	}
 
+	/**
+	 * Realiza un flitro de las peliculas que en el nombre contengan la palabra introducida y devuelve un ResultSet
+	 * 
+	 * @param name: palabra de flitrado
+	 * @return ResultSet
+	 * @see Conexion.queryConsult(query)
+	 */
+	
 	public ResultSet filterMovies(String name) {
 		ResultSet rs = null;
 		String query = "SELECT * FROM `movies` WHERE LOCATE('" + name + "',`Nombre`) > 0";
@@ -129,6 +169,15 @@ public class DAOMovies implements IDAOMovies {
 		return rs;
 	}
 
+	/**
+	 * Realiza un flitro de las peliculas que esten entre los años introducidos y devuelve un ResultSet
+	 * 
+	 * @param year1: año desde el que se realiza la consulta
+	 * @param year2: año hasta el que se realiza la consulta
+	 * @return ResultSet
+	 * @see Conexion.queryConsult(query)
+	 */
+	
 	public ResultSet filterMovies(int year1, int year2) {
 		ResultSet rs = null;
 		String query = "SELECT * FROM `movies` WHERE Year>=" + year1 + " AND Year<=" + year2;
@@ -146,6 +195,16 @@ public class DAOMovies implements IDAOMovies {
 		return rs;
 	}
 
+	/**
+	 * Realiza un flitro de las primeras peliculas de la columna que se le imputa y devuelve un ResultSet
+	 * 
+	 * @param name: Columna de la que se quiere ontener resultados
+	 * @param top: numero de resultados
+	 * @return ResultSet
+	 * @see Conexion.queryConsult(query)
+	 */
+	
+	
 	public ResultSet filterMovies(String name, int top) {
 		ResultSet rs = null;
 		String query = "SELECT * FROM `movies`  WHERE " + name + ">0 ORDER BY " + name + " DESC LIMIT " + top;
