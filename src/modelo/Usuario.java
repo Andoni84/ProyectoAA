@@ -3,7 +3,7 @@ package modelo;
 import java.sql.Date;
 
 public class Usuario {
-	
+
 	/**
 	 * Clase Usuario
 	 * 
@@ -15,58 +15,63 @@ public class Usuario {
 	 * @version v1.2
 	 */
 
-	
 	/*
-	 * Clase Usuario con atributos name,fecha nacimiento,city,plan abono,codigo user_id. 
-	 *El codigo se puede generarar automaticamente.
+	 * Clase Usuario con atributos name,fecha nacimiento,city,plan abono,codigo
+	 * user_id. El codigo se puede generarar automaticamente.
 	 */
-	
+
 	private String name;
 	private Date birth;
 	private String city;
 	private int plan;
 	private int user_id;
-	
+
 	/*
 	 * SETTERS,GETTERS,TOSTRING
 	 */
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public Date getBirth() {
 		return birth;
 	}
+
 	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
+
 	public String getCity() {
 		return city;
 	}
+
 	public void setCity(String city) {
 		this.city = city;
 	}
+
 	public int getPlan() {
 		return plan;
 	}
+
 	public void setPlan(int plan) {
 		this.plan = plan;
 	}
-	
+
 	public int getUser_id() {
 		return user_id;
 	}
+
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
-	
-	
+
 	public Usuario() {
 	}
 
-	
 	public Usuario(String name, Date birth, String city, int plan) {
 		super();
 		this.name = name;
@@ -75,16 +80,14 @@ public class Usuario {
 		this.plan = plan;
 		this.user_id = this.hashCode();
 	}
-	
-	public Usuario(String name, Date birth){
+
+	public Usuario(String name, Date birth) {
 		super();
 		this.name = name;
 		this.birth = birth;
-		this.user_id=hashCode();
+		this.user_id = hashCode();
 	}
-	
-	
-	
+
 	public Usuario(String name, Date birth, String city, int plan, int user_id) {
 		super();
 		this.name = name;
@@ -93,8 +96,10 @@ public class Usuario {
 		this.plan = plan;
 		this.user_id = user_id;
 	}
+
 	/*
 	 * METODOS(non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -113,17 +118,16 @@ public class Usuario {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((birth == null) ? 0 : birth.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return (result & 0xfffffff );
+		return (result & 0xfffffff);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -145,10 +149,5 @@ public class Usuario {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-
 
 }

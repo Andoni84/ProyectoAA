@@ -22,11 +22,9 @@ public interface IDAOUser {
 	public void deleteUser(Usuario user);
 
 	public ResultSet CheckUser(Usuario user);
-	
+
 	public String[] muestraUser();
-	
+
 	public String[] availableMovies(Usuario user);
-
-
 
 }

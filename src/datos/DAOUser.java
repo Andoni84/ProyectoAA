@@ -25,9 +25,9 @@ import utilidades.Conexion;
 
 public class DAOUser implements IDAOUser {
 
-	 Conexion con = new Conexion();
+	Conexion con = new Conexion();
 	private static Logger logger;
-	
+
 	static {
 		try {
 			logger = LogManager.getLogger(DAOMovies.class);
@@ -37,12 +37,12 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
-	 *  ------------------------------------
-	 * METODO PARA AÑADIR USUARIOS
-	 *  ------------------------------------
+	 * ------------------------------------ METODO PARA AÑADIR USUARIOS
+	 * ------------------------------------
 	 */
 	/**
 	 * Gestiona la base de datos para añadir un usuario
+	 * 
 	 * @param user
 	 */
 	public void addUser(Usuario user) {
@@ -89,13 +89,13 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
-	 *  ------------------------------------
-	 * METODO PARA BORRAR USUARIOS, es igual que el metodo addUser(), pero
-	 * cambiando la sintaxis
-	 *  ------------------------------------
+	 * ------------------------------------ METODO PARA BORRAR USUARIOS, es
+	 * igual que el metodo addUser(), pero cambiando la sintaxis
+	 * ------------------------------------
 	 */
 	/**
 	 * Gestiona la base de datos para eliminar un usuario
+	 * 
 	 * @param user
 	 */
 	public void deleteUser(Usuario user) {
@@ -118,12 +118,12 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
-	 * ------------------------------------
-	 * MÉTODO QUE DEVUELVE EL RESULTADO DE LA BÚSQUEDA DE UN USUARIO POR ID
-	 *  ------------------------------------
+	 * ------------------------------------ MÉTODO QUE DEVUELVE EL RESULTADO DE
+	 * LA BÚSQUEDA DE UN USUARIO POR ID ------------------------------------
 	 */
 	/**
 	 * Busca a un usuario en la base de datos, usando su id
+	 * 
 	 * @param user
 	 * @return ResultSet
 	 */
@@ -148,12 +148,12 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
-	 *  ------------------------------------
-	 * METODO PARA LISTAR TODOS LOS USUARIOS
-	 *  ------------------------------------
+	 * ------------------------------------ METODO PARA LISTAR TODOS LOS
+	 * USUARIOS ------------------------------------
 	 */
-	/** 
+	/**
 	 * Muestra todos los usuarios en la base de datos
+	 * 
 	 * @return String[]
 	 */
 	public String[] muestraUser() {
@@ -189,12 +189,12 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
-	 *  ------------------------------------
-	 * METODO PARA LISTAR LAS PELICULAS DISPONIBLES A UN USUARIO
-	 *  ------------------------------------
+	 * ------------------------------------ METODO PARA LISTAR LAS PELICULAS
+	 * DISPONIBLES A UN USUARIO ------------------------------------
 	 */
 	/**
 	 * Muestra las peliculas disponibles para un usuario
+	 * 
 	 * @param user
 	 * @return String[]
 	 */
@@ -217,7 +217,7 @@ public class DAOUser implements IDAOUser {
 					+ " where movies.Categoria in (select distinct categoria.Nombre" + " from movieflix.categoria"
 					+ " inner join movieflix.abono" + " on abono.Categoria_id=categoria.Categoria_id"
 					+ " where categoria.Categoria_id in (select abono.Categoria_id" + " from movieflix.abono"
-					+ " inner join movieflix.user" + " on user.Abono_id=abono.Abono_id" + " where user.nombre = '" 
+					+ " inner join movieflix.user" + " on user.Abono_id=abono.Abono_id" + " where user.nombre = '"
 					+ user.getUser_id() + "' ));");
 			while (rs.next()) {
 				lista.add(rs.getString(1));
