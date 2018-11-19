@@ -10,7 +10,7 @@ public class GenViewedMov {
 	
 	public static ArrayList<Integer> genViewMov(){
 		ResultSet rs=new DAOMovies().isbnList();
-		ArrayList<Integer> miArray=null;
+		ArrayList<Integer> miArray=new ArrayList<Integer>();
 		int aleatorio=0;
 		try {
 			while(rs.next()){
