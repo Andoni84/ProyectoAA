@@ -1,6 +1,7 @@
 package servicios;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import modelo.Pelicula;
 
@@ -35,5 +36,7 @@ public interface IServiciosPeliculas {
 	public void filterMovies() throws Exception;
 
 	public void printList(ResultSet rs) throws Exception;
+	
+	public ArrayList movieValueGui();
 
 }

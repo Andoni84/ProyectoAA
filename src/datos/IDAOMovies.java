@@ -25,6 +25,8 @@ public interface IDAOMovies {
 
 	public ResultSet isbnList(int isbn);
 	
+	public ResultSet isbnList();
+	
 	public ResultSet listMovies();
 
 	public ResultSet filterMovies(String name) throws ClassNotFoundException, SQLException;
