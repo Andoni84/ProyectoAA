@@ -25,6 +25,7 @@ public interface IServiciosUsuarios {
 	public void deleteUser(Usuario user);
 	public boolean CheckRepeat(ResultSet rs) throws SQLException;
 	public void availableMovies() throws Exception;
+
 	public void availableMovies(Usuario user) throws Exception;
 	public void listUsers();
 	public void listNotViewed(Usuario user);

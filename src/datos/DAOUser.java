@@ -202,7 +202,6 @@ public class DAOUser implements IDAOUser {
 	 */
 	public ResultSet availableMovies(Usuario user) {
 
-
 		try {
 			con.connect();
 		} catch (ClassNotFoundException e1) {
@@ -225,16 +224,17 @@ public class DAOUser implements IDAOUser {
 		}
 		return rs;
 	}
-	
+
 	/*
 	 * METODO PARA MOSTRAR LAS PELICULAS NO VISTAS POR UN USUARIO
 	 */
 	/**
 	 * devuelve un ResultSet con las peliculas no vistas por un usuario
+	 * 
 	 * @param user
 	 * @return ResultSet
 	 */
-	public ResultSet notviewedMovies(Usuario user){
+	public ResultSet notviewedMovies(Usuario user) {
 		try {
 			con.connect();
 		} catch (ClassNotFoundException e1) {
@@ -244,35 +244,42 @@ public class DAOUser implements IDAOUser {
 
 		ResultSet rs = null;
 		Statement st = null;
-		
-		try{
+
+		try {
 			st = (Statement) con.con.createStatement();
-			rs = st.executeQuery("select distinct movies.Nombre "
-					+ "from movieflix.movies"
-					+ "inner join movieflix.user_movie"
-					+ "on movies.Isbn"
-					+ "where movies.isbn not in ("
-					+ "select user_movie.isbn"
-					+ "from movieflix.user_movie"
-					+ "where user_movie.User_id="+user.getUser_id()+");");
-		}
-		catch (SQLException e) {
+			rs = st.executeQuery(
+					"select distinct movies.Nombre " + "from movieflix.movies" + "inner join movieflix.user_movie"
+							+ "on movies.Isbn" + "where movies.isbn not in (" + "select user_movie.isbn"
+							+ "from movieflix.user_movie" + "where user_movie.User_id=" + user.getUser_id() + ");");
+		} catch (SQLException e) {
 			logger.error("No se pudo ejecutar Query");
 			e.printStackTrace();
 		}
 		return rs;
-		
-		
+
 	}
-	
-	public void addUserViewMovie(Usuario user, Pelicula pelicula){
-		String query=  "INSERT INTO `user_movie`(Nombre_user,Isbn,User_id)" + " VALUE ('" + user.getName()
-				+ "'," + pelicula.getIsbn() + "," + user.getUser_id()+")";
+
+	/**
+	 * Introduce usuario en la tabla user_movie la relacion entre usuario y
+	 * pelicula vista
+	 * 
+	 * @param user
+	 * @param pelicula
+	 */
+	public void addUserViewMovie(Usuario user, Pelicula pelicula) {
+		String query = "INSERT INTO `user_movie`(Nombre_user,Isbn,User_id)" + " VALUE ('" + user.getName() + "',"
+				+ pelicula.getIsbn() + "," + user.getUser_id() + ")";
 		con.updateQuery(query);
 	}
-	
-	public void deleteUserViewMovie(Usuario user){
-		String query=  "DELETE FROM user_movie WHERE User_id="+user.getUser_id();
+
+	/**
+	 * Borra todos los registros de la tabla user movie, correspondientes a ese
+	 * usuario
+	 * 
+	 * @param user
+	 */
+	public void deleteUserViewMovie(Usuario user) {
+		String query = "DELETE FROM user_movie WHERE User_id=" + user.getUser_id();
 		con.updateQuery(query);
 	}
 }

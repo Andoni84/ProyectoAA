@@ -2,6 +2,8 @@ package datos;
 
 import java.sql.ResultSet;
 
+import modelo.Pelicula;
+
 /**
  * Interfaz IDAOUser
  *
@@ -25,6 +27,12 @@ public interface IDAOUser {
 
 	public String[] muestraUser();
 
-	public String[] availableMovies(Usuario user);
+	public ResultSet availableMovies(Usuario user);
+
+	public ResultSet notviewedMovies(Usuario user);
+
+	public void addUserViewMovie(Usuario user, Pelicula pelicula);
+
+	public void deleteUserViewMovie(Usuario user);
 
 }
