@@ -267,9 +267,19 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	 * Devuelve la lista de películas que el usuario no ha visto de las
 	 * disponibles en su/s catálogos/s.
 	 */
-	@Override
-	public void listNotViewed() {
-		// TODO Auto-generated method stub
+	
+	public void listNotViewed(Usuario user) {
+		ResultSet rs = daoUser.notviewedMovies(user);
+		try{
+			while (rs.next()) {
+				logger.info(rs.getString(1));
+			}
+			rs.first();
+		}catch (SQLException e) {
+			logger.error("No se pudo ejecutar Query");
+			e.printStackTrace();
+		}
+		
 	}
 
 	// --------------------
