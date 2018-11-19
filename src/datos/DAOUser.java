@@ -37,7 +37,13 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
+	 *  ------------------------------------
 	 * METODO PARA AÑADIR USUARIOS
+	 *  ------------------------------------
+	 */
+	/**
+	 * Gestiona la base de datos para añadir un usuario
+	 * @param user
 	 */
 	public void addUser(Usuario user) {
 
@@ -83,8 +89,14 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
+	 *  ------------------------------------
 	 * METODO PARA BORRAR USUARIOS, es igual que el metodo addUser(), pero
 	 * cambiando la sintaxis
+	 *  ------------------------------------
+	 */
+	/**
+	 * Gestiona la base de datos para eliminar un usuario
+	 * @param user
 	 */
 	public void deleteUser(Usuario user) {
 		try {
@@ -106,7 +118,14 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
+	 * ------------------------------------
 	 * MÉTODO QUE DEVUELVE EL RESULTADO DE LA BÚSQUEDA DE UN USUARIO POR ID
+	 *  ------------------------------------
+	 */
+	/**
+	 * Busca a un usuario en la base de datos, usando su id
+	 * @param user
+	 * @return ResultSet
 	 */
 	public ResultSet CheckUser(Usuario user) {
 		ResultSet rs = null;
@@ -129,7 +148,13 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
+	 *  ------------------------------------
 	 * METODO PARA LISTAR TODOS LOS USUARIOS
+	 *  ------------------------------------
+	 */
+	/** 
+	 * Muestra todos los usuarios en la base de datos
+	 * @return String[]
 	 */
 	public String[] muestraUser() {
 		ArrayList<String> lista = new ArrayList<String>();
@@ -164,9 +189,15 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/*
+	 *  ------------------------------------
 	 * METODO PARA LISTAR LAS PELICULAS DISPONIBLES A UN USUARIO
+	 *  ------------------------------------
 	 */
-
+	/**
+	 * Muestra las peliculas disponibles para un usuario
+	 * @param user
+	 * @return String[]
+	 */
 	public String[] availableMovies(Usuario user) {
 
 		ArrayList<String> lista = new ArrayList<String>();
