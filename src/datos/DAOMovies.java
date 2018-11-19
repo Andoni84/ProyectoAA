@@ -78,8 +78,26 @@ public class DAOMovies implements IDAOMovies {
 	
 	public ResultSet isbnList(int isbn) {
 		ResultSet rs = null;
+	
+			String query=("SELECT Isbn FROM movies WHERE Isbn=" + isbn);
+			rs=isbnList(query);
+
+		return rs;
+	}
+	
+	public ResultSet isbnList() {
+		ResultSet rs = null;
+	
+			String query=("SELECT Isbn FROM movies");
+			rs=isbnList(query);
+
+		return rs;
+	}
+	
+	public ResultSet isbnList(String query) {
+		ResultSet rs = null;
 		try {
-			rs = con.queryConsult("SELECT Isbn FROM movies WHERE Isbn=" + isbn);
+			rs = con.queryConsult(query);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			logger.error("DAOmovies.isbnList(isbn) Problema driver conexion");
@@ -92,7 +110,7 @@ public class DAOMovies implements IDAOMovies {
 
 		return rs;
 	}
-	
+
 	/**
 	 * Devuelve un Resulset con todas las peliculas.
 	 * 

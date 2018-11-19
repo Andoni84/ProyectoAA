@@ -3,6 +3,7 @@ package servicios;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,7 @@ import datos.DAOUser;
 import modelo.Usuario;
 import utilidades.Escritor;
 import utilidades.Factoria;
+import utilidades.GenViewedMov;
 import utilidades.Lector;
 
 /**
@@ -83,6 +85,7 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	 */
 	@Override
 	public void addUser(Usuario user) {
+		ArrayList<Integer> miArray=null;
 		ResultSet rset = daoUser.CheckUser(user);
 		try {
 			if (CheckRepeat(rset) == true) {
@@ -97,7 +100,10 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		miArray=GenViewedMov.genViewMov();
+		for(int val:miArray){
+			daoUser.addUserViewMovie(user,Factoria.factoriaPelicula("", 0, "", 0,0, val));
+		}
 		daoUser.addUser(user);
 	}
 
@@ -161,6 +167,7 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 			e.printStackTrace();
 		}
 
+		daoUser.deleteUserViewMovie(user);
 		daoUser.deleteUser(user);
 	}
 
