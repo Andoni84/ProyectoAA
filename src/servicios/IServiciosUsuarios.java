@@ -19,17 +19,16 @@ import modelo.Usuario;
 
 public interface IServiciosUsuarios {
 
-	public void addUser() throws InputMismatchException; 
+	public void addUser() throws  Exception; 
 	public void addUser(Usuario user); 
-	public void deleteUser() throws InputMismatchException;
+	public void deleteUser() throws  Exception;
 	public void deleteUser(Usuario user);
 	public boolean CheckRepeat(ResultSet rs) throws SQLException;
-	public void availableMovies();
-	public void availableMovies(Usuario user);
+	public void availableMovies() throws Exception;
+
+	public void availableMovies(Usuario user) throws Exception;
 	public void listUsers();
-
-
-	public void listNotViewed();
+	public void listNotViewed(Usuario user);
 	
 	
 	

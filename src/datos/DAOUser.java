@@ -198,11 +198,9 @@ public class DAOUser implements IDAOUser {
 	 * Muestra las peliculas disponibles para un usuario
 	 * 
 	 * @param user
-	 * @return String[]
+	 * @return ResultSet
 	 */
-	public String[] availableMovies(Usuario user) {
-
-		ArrayList<String> lista = new ArrayList<String>();
+	public ResultSet availableMovies(Usuario user) {
 
 		try {
 			con.connect();
@@ -210,7 +208,6 @@ public class DAOUser implements IDAOUser {
 			logger.error("No se pudo establecer la conexion");
 			e1.printStackTrace();
 		}
-
 		ResultSet rs = null;
 		Statement st = null;
 		try {
@@ -219,36 +216,25 @@ public class DAOUser implements IDAOUser {
 					+ " where movies.Categoria in (select distinct categoria.Nombre" + " from movieflix.categoria"
 					+ " inner join movieflix.abono" + " on abono.Categoria_id=categoria.Categoria_id"
 					+ " where categoria.Categoria_id in (select abono.Categoria_id" + " from movieflix.abono"
-					+ " inner join movieflix.user" + " on user.Abono_id=abono.Abono_id" + " where user.nombre = '"
+					+ " inner join movieflix.user" + " on user.Abono_id=abono.Abono_id" + " where user.User_id = '"
 					+ user.getUser_id() + "' ));");
-			while (rs.next()) {
-				lista.add(rs.getString(1));
-
-			}
-			rs.first();
 		} catch (SQLException e) {
 			logger.error("No se pudo ejecutar Query");
 			e.printStackTrace();
 		}
-		String[] lista_peliculas = new String[lista.size()];
-		int i = 0;
-		for (String s : lista) {
-			lista_peliculas[i] = s;
-			i++;
-		}
-		return lista_peliculas;
-
+		return rs;
 	}
-	
+
 	/*
 	 * METODO PARA MOSTRAR LAS PELICULAS NO VISTAS POR UN USUARIO
 	 */
 	/**
 	 * devuelve un ResultSet con las peliculas no vistas por un usuario
+	 * 
 	 * @param user
 	 * @return ResultSet
 	 */
-	public ResultSet notviewedMovies(Usuario user){
+	public ResultSet notviewedMovies(Usuario user) {
 		try {
 			con.connect();
 		} catch (ClassNotFoundException e1) {
@@ -258,35 +244,42 @@ public class DAOUser implements IDAOUser {
 
 		ResultSet rs = null;
 		Statement st = null;
-		
-		try{
+
+		try {
 			st = (Statement) con.con.createStatement();
-			rs = st.executeQuery("select distinct movies.Nombre "
-					+ "from movieflix.movies"
-					+ "inner join movieflix.user_movie"
-					+ "on movies.Isbn"
-					+ "where movies.isbn not in ("
-					+ "select user_movie.isbn"
-					+ "from movieflix.user_movie"
-					+ "where user_movie.User_id="+user.getUser_id()+");");
-		}
-		catch (SQLException e) {
+			rs = st.executeQuery(
+					"select distinct movies.Nombre " + "from movieflix.movies" + "inner join movieflix.user_movie"
+							+ "on movies.Isbn" + "where movies.isbn not in (" + "select user_movie.isbn"
+							+ "from movieflix.user_movie" + "where user_movie.User_id=" + user.getUser_id() + ");");
+		} catch (SQLException e) {
 			logger.error("No se pudo ejecutar Query");
 			e.printStackTrace();
 		}
 		return rs;
-		
-		
+
 	}
-	
-	public void addUserViewMovie(Usuario user, Pelicula pelicula){
-		String query=  "INSERT INTO `user_movie`(Nombre_user,Isbn,User_id)" + " VALUE ('" + user.getName()
-				+ "'," + pelicula.getIsbn() + "," + user.getUser_id()+")";
+
+	/**
+	 * Introduce usuario en la tabla user_movie la relacion entre usuario y
+	 * pelicula vista
+	 * 
+	 * @param user
+	 * @param pelicula
+	 */
+	public void addUserViewMovie(Usuario user, Pelicula pelicula) {
+		String query = "INSERT INTO `user_movie`(Nombre_user,Isbn,User_id)" + " VALUE ('" + user.getName() + "',"
+				+ pelicula.getIsbn() + "," + user.getUser_id() + ")";
 		con.updateQuery(query);
 	}
-	
-	public void deleteUserViewMovie(Usuario user){
-		String query=  "DELETE FROM user_movie WHERE User_id="+user.getUser_id();
+
+	/**
+	 * Borra todos los registros de la tabla user movie, correspondientes a ese
+	 * usuario
+	 * 
+	 * @param user
+	 */
+	public void deleteUserViewMovie(Usuario user) {
+		String query = "DELETE FROM user_movie WHERE User_id=" + user.getUser_id();
 		con.updateQuery(query);
 	}
 }

@@ -34,7 +34,7 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 
 	static {
 		try {
-			logger = LogManager.getLogger(ServiciosPeliculas.class);
+			logger = LogManager.getLogger(ServiciosUsuarios.class);
 		} catch (Throwable e) {
 			System.out.println("Logger Don't work");
 		}
@@ -48,9 +48,9 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	/**
 	 * Solicita por pantalla los datos necesarios para crear un nuevo usuario.
 	 * 
-	 * @throws InputMismatchException
+	 * @throws Exception
 	 */
-	public void addUser() throws InputMismatchException {
+	public void addUser() throws Exception {
 		boolean error = true;
 		do {
 			try {
@@ -58,22 +58,34 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 				Escritor.write("------NUEVO USUARIO------");
 				String name = Lector.readString("Nombre: ");
 				Escritor.write("Fecha de nacimiento");
-				String year = Lector.readString("\tAño: ");
-				String month = Lector.readString("\tMes: ");
-				String day = Lector.readString("\tDía: ");
+				int year = Lector.readInt("\tAño: ");
+				if (1870 > year || 2018 < year) {
+					throw new InputMismatchException();
+				}
+				int month = Lector.readInt("\tMes: ");
+				if (1 > month || 12 < month) {
+					throw new InputMismatchException();
+				}
+				int day = Lector.readInt("\tDía: ");
+				if (1 > day || 31 < day) {
+					throw new InputMismatchException();
+				}
 				Date birth = Date.valueOf(year + "-" + month + "-" + day);
 				String city = Lector.readString("Localidad: ");
 				int plan = Lector.readInt("Seleccionar Abono: \n\t1-BASICO \n\t2-EXTRA \n\t3-PREMIUM ");
 				logger.info("Proceso de solicitud de datos de usuario completado.");
-
+				if (plan > 3 || plan < 1) {
+					throw new IllegalArgumentException("El numero introducido no corresponde a ningun plan");
+				}
 				user = Factoria.factoriaUser(name, birth, city, plan);
 				addUser(user);
 				error = false;
 
 			} catch (IllegalArgumentException e) {
-				e.getMessage();
-			} catch (Exception e1) {
-				e1.printStackTrace();
+				Escritor.write(e.getMessage());
+
+			} catch (InputMismatchException e1) {
+				Escritor.write("Introduzca el tipo de datos correcto");
 			}
 		} while (error == true);
 	}
@@ -86,7 +98,7 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	 */
 	@Override
 	public void addUser(Usuario user) {
-		ArrayList<Integer> miArray=null;
+		ArrayList<Integer> miArray = null;
 		ResultSet rset = daoUser.CheckUser(user);
 		try {
 			if (CheckRepeat(rset) == true) {
@@ -101,9 +113,9 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		miArray=GenViewedMov.genViewMov();
-		for(int val:miArray){
-			daoUser.addUserViewMovie(user,Factoria.factoriaPelicula("", 0, "", 0,0, val));
+		miArray = GenViewedMov.genViewMov();
+		for (int val : miArray) {
+			daoUser.addUserViewMovie(user, Factoria.factoriaPelicula("", 0, "", 0, 0, val));
 		}
 		daoUser.addUser(user);
 	}
@@ -115,10 +127,10 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	/**
 	 * Solicita por pantalla los datos del usuario que se desea eliminar.
 	 * 
-	 * @throws InputMismatchException
+	 * @throws Exception
 	 */
 
-	public void deleteUser() throws InputMismatchException {
+	public void deleteUser() throws Exception {
 		boolean error = true;
 		do {
 			try {
@@ -126,9 +138,18 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 				Escritor.write("------ELIMINAR USUARIO------");
 				String name = Lector.readString("Nombre: ");
 				Escritor.write("Fecha de nacimiento");
-				String year = Lector.readString("\tAño: ");
-				String month = Lector.readString("\tMes: ");
-				String day = Lector.readString("\tDía: ");
+				int year = Lector.readInt("\tAño: ");
+				if (1870 > year || 2018 < year) {
+					throw new InputMismatchException();
+				}
+				int month = Lector.readInt("\tMes: ");
+				if (1 > month || 12 < month) {
+					throw new InputMismatchException();
+				}
+				int day = Lector.readInt("\tDía: ");
+				if (1 > day || 31 < day) {
+					throw new InputMismatchException();
+				}
 				Date birth = Date.valueOf(year + "-" + month + "-" + day);
 				logger.info("Proceso de solicitud de datos de usuario completado.");
 
@@ -139,8 +160,8 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 
 			} catch (IllegalArgumentException e) {
 				e.getMessage();
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			} catch (InputMismatchException e1) {
+				Escritor.write("Introduxca el tipo de datos correcto");
 			}
 		} while (error == true);
 
@@ -215,9 +236,11 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	/**
 	 * Solicita los datos del usuario del que se quiere consultar la
 	 * información.
+	 * 
+	 * @throws Exception
 	 */
 	@Override
-	public void availableMovies() {
+	public void availableMovies() throws Exception {
 
 		boolean error = true;
 		do {
@@ -226,9 +249,18 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 				Escritor.write("------CONSULTA DEL CATÁLOGO DE USUARIO------");
 				String name = Lector.readString("Nombre: ");
 				Escritor.write("Fecha de nacimiento");
-				String year = Lector.readString("\tAño: ");
-				String month = Lector.readString("\tMes: ");
-				String day = Lector.readString("\tDía: ");
+				int year = Lector.readInt("\tAño: ");
+				if (1870 > year || 2018 < year) {
+					throw new InputMismatchException();
+				}
+				int month = Lector.readInt("\tMes: ");
+				if (1 > month || 12 < month) {
+					throw new InputMismatchException();
+				}
+				int day = Lector.readInt("\tDía: ");
+				if (1 > day || 31 < day) {
+					throw new InputMismatchException();
+				}
 				Date birth = Date.valueOf(year + "-" + month + "-" + day);
 				logger.info("Proceso de solicitud de datos de usuario completado.");
 
@@ -238,8 +270,8 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 
 			} catch (IllegalArgumentException e) {
 				e.getMessage();
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			} catch (InputMismatchException e1) {
+				Escritor.write("Introduxca el tipo de datos correcto");
 			}
 		} while (error == true);
 	}
@@ -248,38 +280,34 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	 * Devuelve la lista de películas a las que puede acceder el usuario.
 	 * 
 	 * @param user
+	 * @throws Exception
 	 */
 	@Override
-	public void availableMovies(Usuario user) {
-		String[] listaPeliculasUsuario = daoUser.availableMovies(user);
-		for (String pelicula : listaPeliculasUsuario) {
-			try {
-				Escritor.write(pelicula);
-				logger.info("Nombre de pelicula:" + pelicula);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public void availableMovies(Usuario user) throws Exception {
+		ResultSet lista = daoUser.availableMovies(user);
+		while (lista.next()) {
+			Escritor.write(lista.getString(1));
 		}
+
 	}
 
 	/**
 	 * Devuelve la lista de películas que el usuario no ha visto de las
 	 * disponibles en su/s catálogos/s.
 	 */
-	
+
 	public void listNotViewed(Usuario user) {
 		ResultSet rs = daoUser.notviewedMovies(user);
-		try{
+		try {
 			while (rs.next()) {
 				logger.info(rs.getString(1));
 			}
 			rs.first();
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			logger.error("No se pudo ejecutar Query");
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	// --------------------

@@ -58,13 +58,12 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 				logger.debug("ServiciosPeliculas.addMovie() miARRay:" + miArray.toString());
 
 				Pelicula pelicula = Factoria.factoriaPelicula(miArray.get(0).toString(), (int) miArray.get(1),
-						miArray.get(2).toString(),0,0);
+						miArray.get(2).toString(), 0, 0);
 				logger.debug("ServiciosPeliculas.addMovie() pelicula:" + pelicula.toString());
 
 				addMovie(pelicula);
 
 				seguir = true;
-
 
 			} catch (IllegalArgumentException e) {
 				Escritor.write(e.getMessage());
@@ -84,16 +83,18 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 	public void addMovie(Pelicula pelicula) throws IllegalArgumentException, Exception {
 		// TODO Auto-generated method stub
 
-			ResultSet isbnRs = daoMovies.isbnList(pelicula.getIsbn());
+		ResultSet isbnRs = daoMovies.isbnList(pelicula.getIsbn());
 
-			if (isbnRs.next()) {
-				logger.debug("ServiciosPeliculas.addMovie(pelicula): Objeto repetido");
-				throw new IllegalArgumentException("Pelicula repetida");
-			}
-			if(pelicula.getViews()==0)pelicula.setViews(GenRatingViews.generadorViews());
-			if(pelicula.getRating()==0)pelicula.setRating(GenRatingViews.generadorRating());
-			daoMovies.addMovie(pelicula);
-		
+		if (isbnRs.next()) {
+			logger.debug("ServiciosPeliculas.addMovie(pelicula): Objeto repetido");
+			throw new IllegalArgumentException("Pelicula repetida");
+		}
+		if (pelicula.getViews() == 0)
+			pelicula.setViews(GenRatingViews.generadorViews());
+		if (pelicula.getRating() == 0)
+			pelicula.setRating(GenRatingViews.generadorRating());
+		daoMovies.addMovie(pelicula);
+
 	}
 
 	public void deleteMovie() throws Exception {
@@ -130,7 +131,7 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 				}
 
 				seguir = true;
-				
+
 			} catch (IllegalArgumentException e) {
 				Escritor.write(e.getMessage());
 				logger.debug("ServiciosPeliculas.deleteMovie(): No existe la pelicula: ISBN inexistente");
@@ -142,14 +143,14 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 	@Override
 	public void deleteMovie(Pelicula pelicula) throws IllegalArgumentException, Exception {
 		// TODO Auto-generated method stub
-		
-			ResultSet isbnRs = daoMovies.isbnList(pelicula.getIsbn());
 
-			if (!isbnRs.next()) {
-				logger.debug("ServiciosPeliculas.deleteMovie(Pelicula): Existe pelicula con ese ISBN");
-				throw new IllegalArgumentException("ServiciosPeliculas.deleteMovie(pelicula): ISBN inexistente");
-			}
-			daoMovies.deleteMovie(pelicula);
+		ResultSet isbnRs = daoMovies.isbnList(pelicula.getIsbn());
+
+		if (!isbnRs.next()) {
+			logger.debug("ServiciosPeliculas.deleteMovie(Pelicula): Existe pelicula con ese ISBN");
+			throw new IllegalArgumentException("ServiciosPeliculas.deleteMovie(pelicula): ISBN inexistente");
+		}
+		daoMovies.deleteMovie(pelicula);
 
 	}
 
@@ -167,11 +168,12 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 				String[] values = line.split(","); // Split
 				pelicula = Factoria.factoriaPelicula(values[0].toUpperCase(), Integer.parseInt(values[1]),
 						values[2].toUpperCase(), Integer.parseInt(values[3]), Double.parseDouble(values[4]));
-				try{
-				addMovie(pelicula);
-				}catch (IllegalArgumentException e) {
-					Escritor.write(e.getMessage()+" : "+pelicula.toString());		
-					logger.debug("ServiciosPeliculas.insertlistMovies(): Pelicula repetida : "+pelicula.toString());}
+				try {
+					addMovie(pelicula);
+				} catch (IllegalArgumentException e) {
+					Escritor.write(e.getMessage() + " : " + pelicula.toString());
+					logger.debug("ServiciosPeliculas.insertlistMovies(): Pelicula repetida : " + pelicula.toString());
+				}
 			}
 
 		} catch (IOException ioe) {
@@ -246,50 +248,52 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList movieValueGui() {
-		boolean seguir=false;
-		int year=0;
-		int indCat=0;
+		boolean seguir = false;
+		int year = 0;
+		int indCat = 0;
 		ArrayList miArray = new ArrayList();
 		try {
 
 			String name = Lector.readString("Nombre: ").toUpperCase();
-			do{
-			try{	
-			year = Lector.readInt("Año: ");
-			if (year<1895 && year>2018) throw new IllegalArgumentException("Año introducido incorrecto");
-			seguir=true;
-			}catch(InputMismatchException e){
-				Escritor.write("Dato introducido incorrecto, introducca un año");
-				logger.debug(e.getMessage());
-			}catch(IllegalArgumentException a) {
-				Escritor.write(a.getMessage());
-				logger.debug(a.getMessage());
-			}
-			}while(seguir==false);
-			
-			seguir=false;
-			
-			do{
-				try{
-			Escritor.write("Elige Categoria");
-			Escritor.write("\t1-policiaca");
-			Escritor.write("\t2-romantica");
-			Escritor.write("\t3-aventuras");
-			Escritor.write("\t4-comedia");
-			Escritor.write("\t5-animacion");
-			Escritor.write("\t6-thriller");
-			indCat = Lector.readInt();
-			if (indCat<1 && indCat>6) throw new IllegalArgumentException("Selecccion fuera de rango");
-			seguir=true;
-			}catch(InputMismatchException e){
-				Escritor.write("Dato introducido incorrecto, introducca un opcion");
-				logger.debug(e.getMessage());
-			}catch(IllegalArgumentException a) {
-				Escritor.write(a.getMessage());
-				logger.debug(a.getMessage());
-			}
-			}while(seguir==false);
-			
+			do {
+				try {
+					year = Lector.readInt("Año: ");
+					if (year < 1895 && year > 2018)
+						throw new IllegalArgumentException("Año introducido incorrecto");
+					seguir = true;
+				} catch (InputMismatchException e) {
+					Escritor.write("Dato introducido incorrecto, introducca un año");
+					logger.debug(e.getMessage());
+				} catch (IllegalArgumentException a) {
+					Escritor.write(a.getMessage());
+					logger.debug(a.getMessage());
+				}
+			} while (seguir == false);
+
+			seguir = false;
+
+			do {
+				try {
+					Escritor.write("Elige Categoria");
+					Escritor.write("\t1-policiaca");
+					Escritor.write("\t2-romantica");
+					Escritor.write("\t3-aventuras");
+					Escritor.write("\t4-comedia");
+					Escritor.write("\t5-animacion");
+					Escritor.write("\t6-thriller");
+					indCat = Lector.readInt();
+					if (indCat < 1 && indCat > 6)
+						throw new IllegalArgumentException("Selecccion fuera de rango");
+					seguir = true;
+				} catch (InputMismatchException e) {
+					Escritor.write("Dato introducido incorrecto, introducca un opcion");
+					logger.debug(e.getMessage());
+				} catch (IllegalArgumentException a) {
+					Escritor.write(a.getMessage());
+					logger.debug(a.getMessage());
+				}
+			} while (seguir == false);
+
 			String Genre = "";
 
 			switch (indCat) {
@@ -312,8 +316,7 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 				Genre = "thriller".toUpperCase();
 				break;
 			}
-			
-			
+
 			miArray.add(name);
 			miArray.add(year);
 			miArray.add(Genre);
