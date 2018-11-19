@@ -237,4 +237,43 @@ public class DAOUser implements IDAOUser {
 		return lista_peliculas;
 
 	}
+	
+	/*
+	 * METODO PARA MOSTRAR LAS PELICULAS NO VISTAS POR UN USUARIO
+	 */
+	/**
+	 * devuelve un ResultSet con las peliculas no vistas por un usuario
+	 * @param user
+	 * @return ResultSet
+	 */
+	public ResultSet notviewedMovies(Usuario user){
+		try {
+			con.connect();
+		} catch (ClassNotFoundException e1) {
+			logger.error("No se pudo establecer la conexion");
+			e1.printStackTrace();
+		}
+
+		ResultSet rs = null;
+		Statement st = null;
+		
+		try{
+			st = (Statement) con.con.createStatement();
+			rs = st.executeQuery("select distinct movies.Nombre "
+					+ "from movieflix.movies"
+					+ "inner join movieflix.user_movie"
+					+ "on movies.Isbn"
+					+ "where movies.isbn not in ("
+					+ "select user_movie.isbn"
+					+ "from movieflix.user_movie"
+					+ "where user_movie.User_id="+user.getUser_id()+");");
+		}
+		catch (SQLException e) {
+			logger.error("No se pudo ejecutar Query");
+			e.printStackTrace();
+		}
+		return rs;
+		
+		
+	}
 }
