@@ -1,5 +1,7 @@
 package datos;
 
+import modelo.Pelicula;
+
 /**
  * Clase DAOUser
  *

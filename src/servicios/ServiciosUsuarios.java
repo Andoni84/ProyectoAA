@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import datos.DAOUser;
 import modelo.Usuario;
+import modelo.Pelicula; //Es necesario para crear un objeto pelicula en el metodo addUser mediante la factoria.
 import utilidades.Escritor;
 import utilidades.Factoria;
 import utilidades.GenViewedMov;
