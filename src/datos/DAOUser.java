@@ -260,7 +260,7 @@ public class DAOUser implements IDAOUser {
 	}
 
 	/**
-	 * Introduce usuario en la tabla user_movie la relacion entre usuario y
+	 * Introduce en la tabla user_movie la relacion entre usuario y
 	 * pelicula vista
 	 * 
 	 * @param user
@@ -268,7 +268,7 @@ public class DAOUser implements IDAOUser {
 	 */
 	public void addUserViewMovie(Usuario user, Pelicula pelicula) {
 		String query = "INSERT INTO `user_movie`(Nombre_user,Isbn,User_id)" + " VALUE ('" + user.getName() + "',"
-				+ pelicula.getIsbn() + "," + user.getUser_id() + ")";
+				+ pelicula.getIsbn() + "," + user.getUser_id() + ");";
 		con.updateQuery(query);
 	}
 
@@ -279,7 +279,7 @@ public class DAOUser implements IDAOUser {
 	 * @param user
 	 */
 	public void deleteUserViewMovie(Usuario user) {
-		String query = "DELETE FROM user_movie WHERE User_id=" + user.getUser_id();
+		String query = "DELETE FROM user_movie WHERE User_id=" + user.getUser_id()+";";
 		con.updateQuery(query);
 	}
 }
