@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -245,12 +246,31 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList movieValueGui() {
-		
+		boolean seguir=false;
+		int year=0;
+		int indCat=0;
 		ArrayList miArray = new ArrayList();
 		try {
 
 			String name = Lector.readString("Nombre: ").toUpperCase();
-			int year = Lector.readInt("Año: ");
+			do{
+			try{	
+			year = Lector.readInt("Año: ");
+			if (year<1895 && year>2018) throw new IllegalArgumentException("Año introducido incorrecto");
+			seguir=true;
+			}catch(InputMismatchException e){
+				Escritor.write("Dato introducido incorrecto, introducca un año");
+				logger.debug(e.getMessage());
+			}catch(IllegalArgumentException a) {
+				Escritor.write(a.getMessage());
+				logger.debug(a.getMessage());
+			}
+			}while(seguir==false);
+			
+			seguir=false;
+			
+			do{
+				try{
 			Escritor.write("Elige Categoria");
 			Escritor.write("\t1-policiaca");
 			Escritor.write("\t2-romantica");
@@ -258,7 +278,18 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 			Escritor.write("\t4-comedia");
 			Escritor.write("\t5-animacion");
 			Escritor.write("\t6-thriller");
-			int indCat = Lector.readInt();
+			indCat = Lector.readInt();
+			if (indCat<1 && indCat>6) throw new IllegalArgumentException("Selecccion fuera de rango");
+			seguir=true;
+			}catch(InputMismatchException e){
+				Escritor.write("Dato introducido incorrecto, introducca un opcion");
+				logger.debug(e.getMessage());
+			}catch(IllegalArgumentException a) {
+				Escritor.write(a.getMessage());
+				logger.debug(a.getMessage());
+			}
+			}while(seguir==false);
+			
 			String Genre = "";
 
 			switch (indCat) {
@@ -281,7 +312,8 @@ public class ServiciosPeliculas implements IServiciosPeliculas {
 				Genre = "thriller".toUpperCase();
 				break;
 			}
-
+			
+			
 			miArray.add(name);
 			miArray.add(year);
 			miArray.add(Genre);
