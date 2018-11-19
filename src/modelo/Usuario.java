@@ -80,6 +80,7 @@ public class Usuario {
 		super();
 		this.name = name;
 		this.birth = birth;
+		this.user_id=hashCode();
 	}
 	
 	
@@ -120,7 +121,7 @@ public class Usuario {
 		int result = 1;
 		result = prime * result + ((birth == null) ? 0 : birth.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
+		return (result & 0xfffffff );
 	}
 	
 	@Override
