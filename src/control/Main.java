@@ -8,11 +8,9 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		GUI gui1= new GUI();
+		GUI gui1 = new GUI();
 		gui1.iniciar();
 
 	}
-
-	
 
 }
