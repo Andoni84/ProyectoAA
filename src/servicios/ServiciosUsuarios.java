@@ -34,7 +34,7 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 
 	static {
 		try {
-			logger = LogManager.getLogger(ServiciosPeliculas.class);
+			logger = LogManager.getLogger(ServiciosUsuarios.class);
 		} catch (Throwable e) {
 			System.out.println("Logger Don't work");
 		}
@@ -70,7 +70,6 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 					throw new InputMismatchException();
 				}
 				Date birth = Date.valueOf(year + "-" + month + "-" + day);
-				logger.error(birth.toString());
 				String city = Lector.readString("Localidad: ");
 				int plan = Lector.readInt("Seleccionar Abono: \n\t1-BASICO \n\t2-EXTRA \n\t3-PREMIUM ");
 				logger.info("Proceso de solicitud de datos de usuario completado.");
@@ -247,7 +246,6 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 				Escritor.write("------CONSULTA DEL CATÁLOGO DE USUARIO------");
 				String name = Lector.readString("Nombre: ");
 				Escritor.write("Fecha de nacimiento");
-				Escritor.write("Fecha de nacimiento");
 				int year = Lector.readInt("\tAño: ");
 				if(1870>year || 2018<year ){
 					throw new InputMismatchException();
@@ -279,19 +277,15 @@ public class ServiciosUsuarios implements IServiciosUsuarios {
 	 * Devuelve la lista de películas a las que puede acceder el usuario.
 	 * 
 	 * @param user
+	 * @throws Exception 
 	 */
 	@Override
-	public void availableMovies(Usuario user) {
-		String[] listaPeliculasUsuario = daoUser.availableMovies(user);
-		for (String pelicula : listaPeliculasUsuario) {
-			try {
-				Escritor.write(pelicula);
-				logger.info("Nombre de pelicula:" + pelicula);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public void availableMovies(Usuario user) throws Exception {
+		ResultSet lista = daoUser.availableMovies(user);
+		while (lista.next()){
+			Escritor.write(lista.getString(1));
 		}
+		
 	}
 
 	/**

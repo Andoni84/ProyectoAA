@@ -198,11 +198,10 @@ public class DAOUser implements IDAOUser {
 	 * Muestra las peliculas disponibles para un usuario
 	 * 
 	 * @param user
-	 * @return String[]
+	 * @return ResultSet
 	 */
-	public String[] availableMovies(Usuario user) {
+	public ResultSet availableMovies(Usuario user) {
 
-		ArrayList<String> lista = new ArrayList<String>();
 
 		try {
 			con.connect();
@@ -210,7 +209,6 @@ public class DAOUser implements IDAOUser {
 			logger.error("No se pudo establecer la conexion");
 			e1.printStackTrace();
 		}
-
 		ResultSet rs = null;
 		Statement st = null;
 		try {
@@ -219,25 +217,13 @@ public class DAOUser implements IDAOUser {
 					+ " where movies.Categoria in (select distinct categoria.Nombre" + " from movieflix.categoria"
 					+ " inner join movieflix.abono" + " on abono.Categoria_id=categoria.Categoria_id"
 					+ " where categoria.Categoria_id in (select abono.Categoria_id" + " from movieflix.abono"
-					+ " inner join movieflix.user" + " on user.Abono_id=abono.Abono_id" + " where user.nombre = '"
+					+ " inner join movieflix.user" + " on user.Abono_id=abono.Abono_id" + " where user.User_id = '"
 					+ user.getUser_id() + "' ));");
-			while (rs.next()) {
-				lista.add(rs.getString(1));
-
-			}
-			rs.first();
 		} catch (SQLException e) {
 			logger.error("No se pudo ejecutar Query");
 			e.printStackTrace();
 		}
-		String[] lista_peliculas = new String[lista.size()];
-		int i = 0;
-		for (String s : lista) {
-			lista_peliculas[i] = s;
-			i++;
-		}
-		return lista_peliculas;
-
+		return rs;
 	}
 	
 	/*
