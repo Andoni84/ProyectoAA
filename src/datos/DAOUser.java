@@ -213,12 +213,12 @@ public class DAOUser implements IDAOUser {
 		Statement st = null;
 		try {
 			st = (Statement) con.con.createStatement();
-			rs = st.executeQuery("select  movies.Nombre" + " from movieflix.movies"
+			rs = st.executeQuery("select distinct movies.Nombre" + " from movieflix.movies"
 					+ " where movies.Categoria in (select distinct categoria.Nombre" + " from movieflix.categoria"
 					+ " inner join movieflix.abono" + " on abono.Categoria_id=categoria.Categoria_id"
 					+ " where categoria.Categoria_id in (select abono.Categoria_id" + " from movieflix.abono"
 					+ " inner join movieflix.user" + " on user.Abono_id=abono.Abono_id" + " where user.nombre = '" 
-					+ user.getName() + "' ));");
+					+ user.getUser_id() + "' ));");
 			while (rs.next()) {
 				lista.add(rs.getString(1));
 
